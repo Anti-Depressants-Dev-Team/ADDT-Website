@@ -1,208 +1,151 @@
 /**
  * ADDT Website — Interactive Scripts
- * Particle background, scroll effects, card mouse tracking, animations
+ * Pill rain on canvas, scroll effects, card mouse tracking, animations
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    initParticles();
+    initPills();
     initNavbar();
     initCardMouseTracking();
     initScrollReveal();
 });
 
 /* ============================================
-   Pill Rain Background — 💊 falling everywhere
+   Pill Rain — all drawn on one canvas
    ============================================ */
-function initParticles() {
-    const container = document.getElementById('particles');
-    const ctx = container.getContext('2d');
+function initPills() {
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
 
-    // We'll use the canvas for a subtle purple fog behind the pills
     let pills = [];
-    let animFrame;
     let mouseX = -1000;
     let mouseY = -1000;
 
     function resize() {
-        container.width = window.innerWidth;
-        container.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
 
-    // ── Pill class ──────────────────────────────────
     class Pill {
-        constructor(spawnAbove = false) {
-            this.el = document.createElement('span');
-            this.el.textContent = '💊';
-            this.el.style.cssText = `
-                position: fixed;
-                pointer-events: none;
-                z-index: 0;
-                will-change: transform, opacity;
-                line-height: 1;
-                text-shadow: 0 0 12px rgba(168,85,247,0.6), 0 0 30px rgba(139,92,246,0.3);
-            `;
-            document.body.appendChild(this.el);
-            this.reset(spawnAbove);
+        constructor() {
+            this.reset(true);
         }
 
-        reset(spawnAbove) {
-            this.size = Math.random() * 1.2 + 0.7;          // rem (font-size only, not in transform)
-            this.x = Math.random() * window.innerWidth;
-            this.y = spawnAbove
-                ? -(Math.random() * window.innerHeight)
-                : Math.random() * window.innerHeight;
-            this.speedY = Math.random() * 1.4 + 0.5;        // px per frame @ 60fps
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.rotation = Math.random() * 360;
-            this.rotationSpeed = (Math.random() - 0.5) * 1.5; // degrees per frame
-            this.wobbleAmp = Math.random() * 30 + 10;
-            this.wobbleSpeed = Math.random() * 0.02 + 0.005;
+        reset(initial) {
+            this.x = Math.random() * canvas.width;
+            this.y = initial
+                ? Math.random() * canvas.height - 60
+                : -60 - Math.random() * 300;
+            this.size = Math.random() * 20 + 12;
+            this.speed = Math.random() * 3 + 1.5;
+            this.wobbleAmp = Math.random() * 1.0 + 0.4;
+            this.wobbleSpeed = Math.random() * 0.015 + 0.005;
             this.wobbleOffset = Math.random() * Math.PI * 2;
-            this.opacity = Math.random() * 0.45 + 0.25;     // 0.25 – 0.7 — much more visible
-            this.opacityFlicker = Math.random() * 0.06;
-            this.opacityPhase = Math.random() * Math.PI * 2;
-            this.blur = Math.random() > 0.85 ? 'blur(0.5px)' : 'none';
+            this.rotation = Math.random() * 360;
+            this.rotSpeed = (Math.random() - 0.5) * 3.0;
+            this.alpha = Math.random() * 0.4 + 0.3;
+            this.flickerSpeed = Math.random() * 0.04 + 0.01;
+            this.flickerPhase = Math.random() * Math.PI * 2;
             this.frame = 0;
-            this.syncEl();
-        }
-
-        syncEl() {
-            // NOTE: no scale() — fontSize handles pill size
-            this.el.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotation}deg)`;
-            this.el.style.opacity = this.opacity;
-            this.el.style.fontSize = `${this.size}rem`;
-            this.el.style.filter = this.blur;
         }
 
         update() {
             this.frame++;
-            this.y += this.speedY;
-            this.x += this.speedX + Math.sin(this.frame * this.wobbleSpeed + this.wobbleOffset) * 0.4;
-            this.rotation += this.rotationSpeed;
+            this.y += this.speed;
+            this.x += Math.sin(this.frame * this.wobbleSpeed + this.wobbleOffset) * this.wobbleAmp;
+            this.rotation += this.rotSpeed;
 
-            // Flicker opacity
-            this.opacityPhase += 0.03;
-            const flicker = Math.sin(this.opacityPhase) * this.opacityFlicker;
+            this.flickerPhase += this.flickerSpeed;
+            const flicker = Math.sin(this.flickerPhase) * 0.08;
+            this.alpha = Math.max(0.2, Math.min(0.75, this.alpha + flicker));
 
-            // Mouse repulsion — pills avoid the cursor
+            // Mouse push
             const dx = this.x - mouseX;
             const dy = this.y - mouseY;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 120 && dist > 0) {
-                const force = (120 - dist) / 120 * 2;
+            if (dist < 100 && dist > 0) {
+                const force = (100 - dist) / 100 * 2.5;
                 this.x += (dx / dist) * force;
                 this.y += (dy / dist) * force;
             }
 
-            // Wrap around when off screen
-            if (this.y > window.innerHeight + 60) {
+            if (this.y > canvas.height + 60) {
                 this.y = -60;
-                this.x = Math.random() * window.innerWidth;
-                this.rotation = Math.random() * 360;
+                this.x = Math.random() * canvas.width;
             }
-            if (this.x < -60) this.x = window.innerWidth + 40;
-            if (this.x > window.innerWidth + 60) this.x = -40;
-
-            // Apply flicker with clamping
-            this.opacity = Math.max(0.15, Math.min(0.75, this.opacity + flicker));
-
-            this.syncEl();
+            if (this.x < -60) this.x = canvas.width + 40;
+            if (this.x > canvas.width + 60) this.x = -40;
         }
 
-        destroy() {
-            if (this.el && this.el.parentNode) {
-                this.el.parentNode.removeChild(this.el);
-            }
+        draw(ctx) {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.translate(this.x, this.y);
+            ctx.rotate((this.rotation * Math.PI) / 180);
+
+            ctx.font = this.size + 'px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Purple glow
+            ctx.shadowColor = 'rgba(168, 85, 247, 0.7)';
+            ctx.shadowBlur = 14;
+            ctx.fillText('💊', 0, 0);
+
+            // Sharp second pass
+            ctx.shadowBlur = 0;
+            ctx.fillText('💊', 0, 0);
+
+            ctx.restore();
         }
     }
 
-    // ── Fog layer on canvas behind pills ───────────
-    let fogParticles = [];
-    class FogParticle {
-        constructor() {
-            this.reset();
-        }
-        reset() {
-            this.x = Math.random() * container.width;
-            this.y = Math.random() * container.height;
-            this.radius = Math.random() * 120 + 40;
-            this.alpha = Math.random() * 0.04 + 0.01;
-            this.speedX = (Math.random() - 0.5) * 0.2;
-            this.speedY = (Math.random() - 0.5) * 0.2;
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x < -200) this.x = container.width + 200;
-            if (this.x > container.width + 200) this.x = -200;
-            if (this.y < -200) this.y = container.height + 200;
-            if (this.y > container.height + 200) this.y = -200;
-        }
-        draw() {
-            const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-            gradient.addColorStop(0, `rgba(139, 92, 246, ${this.alpha})`);
-            gradient.addColorStop(0.5, `rgba(139, 92, 246, ${this.alpha * 0.3})`);
-            gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-
-    function createFog() {
-        const count = Math.floor((container.width * container.height) / 40000);
-        fogParticles = [];
-        for (let i = 0; i < count; i++) {
-            fogParticles.push(new FogParticle());
-        }
-    }
-
-    // ── Spawn / manage pills ───────────────────────
     function createPills() {
-        const count = Math.floor((window.innerWidth * window.innerHeight) / 5000);
-        // Remove old pills
-        pills.forEach(p => p.destroy());
+        const count = Math.floor((canvas.width * canvas.height) / 4500);
         pills = [];
         for (let i = 0; i < count; i++) {
-            pills.push(new Pill(true)); // spawn scattered above viewport
+            pills.push(new Pill());
         }
     }
 
     function animate() {
-        // Clear canvas & draw fog
-        ctx.clearRect(0, 0, container.width, container.height);
-        fogParticles.forEach(f => {
-            f.update();
-            f.draw();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Purple fog blobs
+        for (let i = 0; i < 6; i++) {
+            const fx = (Math.sin(Date.now() * 0.0001 + i * 1.7) * 0.5 + 0.5) * canvas.width;
+            const fy = (Math.cos(Date.now() * 0.00013 + i * 2.1) * 0.5 + 0.5) * canvas.height;
+            const g = ctx.createRadialGradient(fx, fy, 0, fx, fy, 200);
+            g.addColorStop(0, 'rgba(139, 92, 246, 0.04)');
+            g.addColorStop(1, 'rgba(139, 92, 246, 0)');
+            ctx.fillStyle = g;
+            ctx.fillRect(fx - 200, fy - 200, 400, 400);
+        }
+
+        pills.forEach(p => {
+            p.update();
+            p.draw(ctx);
         });
 
-        // Update pill positions
-        pills.forEach(p => p.update());
-
-        animFrame = requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
     }
 
-    // ── Events ─────────────────────────────────────
     window.addEventListener('resize', () => {
         resize();
-        createFog();
         createPills();
     });
 
-    window.addEventListener('mousemove', (e) => {
+    window.addEventListener('mousemove', function (e) {
         mouseX = e.clientX;
         mouseY = e.clientY;
     });
 
-    window.addEventListener('touchmove', (e) => {
+    window.addEventListener('touchmove', function (e) {
         mouseX = e.touches[0].clientX;
         mouseY = e.touches[0].clientY;
     }, { passive: true });
 
-    // ── Kick off ───────────────────────────────────
     resize();
-    createFog();
     createPills();
     animate();
 }
@@ -211,19 +154,14 @@ function initParticles() {
    Navbar Scroll Effect
    ============================================ */
 function initNavbar() {
-    const navbar = document.getElementById('navbar');
-    let lastScroll = 0;
+    var navbar = document.getElementById('navbar');
 
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-
-        if (scrollY > 50) {
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-
-        lastScroll = scrollY;
     }, { passive: true });
 }
 
@@ -231,18 +169,18 @@ function initNavbar() {
    Card Mouse Tracking (glow effect)
    ============================================ */
 function initCardMouseTracking() {
-    const cards = document.querySelectorAll('.about-card, .project-card, .team-card');
+    var cards = document.querySelectorAll('.about-card, .project-card, .team-card');
 
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
-            card.style.setProperty('--mouse-x', `${x}%`);
-            card.style.setProperty('--mouse-y', `${y}%`);
+    cards.forEach(function (card) {
+        card.addEventListener('mousemove', function (e) {
+            var rect = card.getBoundingClientRect();
+            var x = ((e.clientX - rect.left) / rect.width) * 100;
+            var y = ((e.clientY - rect.top) / rect.height) * 100;
+            card.style.setProperty('--mouse-x', x + '%');
+            card.style.setProperty('--mouse-y', y + '%');
         });
 
-        card.addEventListener('mouseleave', () => {
+        card.addEventListener('mouseleave', function () {
             card.style.setProperty('--mouse-x', '50%');
             card.style.setProperty('--mouse-y', '50%');
         });
@@ -253,30 +191,24 @@ function initCardMouseTracking() {
    Scroll Reveal Animation
    ============================================ */
 function initScrollReveal() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
                 observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-    // Observe section elements
-    const revealElements = document.querySelectorAll(
+    var revealElements = document.querySelectorAll(
         '.about-card, .project-card, .team-card, .patient-item, .connect-card, .section-header'
     );
 
-    revealElements.forEach((el, index) => {
+    revealElements.forEach(function (el, index) {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
-        el.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s`;
+        el.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ' + (index * 0.05) + 's, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ' + (index * 0.05) + 's';
         observer.observe(el);
     });
 }
@@ -284,18 +216,18 @@ function initScrollReveal() {
 /* ============================================
    Smooth parallax on hero orbs
    ============================================ */
-window.addEventListener('mousemove', (e) => {
-    const orbs = document.querySelectorAll('.orb');
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+window.addEventListener('mousemove', function (e) {
+    var orbs = document.querySelectorAll('.orb');
+    var x = (e.clientX / window.innerWidth - 0.5) * 20;
+    var y = (e.clientY / window.innerHeight - 0.5) * 20;
 
     if (orbs[0]) {
-        orbs[0].style.transform = `translate(${x * 1.5}px, ${y * 1.5}px)`;
+        orbs[0].style.transform = 'translate(' + (x * 1.5) + 'px, ' + (y * 1.5) + 'px)';
     }
     if (orbs[1]) {
-        orbs[1].style.transform = `translate(${x * -1}px, ${y * -1}px)`;
+        orbs[1].style.transform = 'translate(' + (x * -1) + 'px, ' + (y * -1) + 'px)';
     }
     if (orbs[2]) {
-        orbs[2].style.transform = `translate(calc(-50% + ${x * 0.5}px), calc(-50% + ${y * 0.5}px))`;
+        orbs[2].style.transform = 'translate(calc(-50% + ' + (x * 0.5) + 'px), calc(-50% + ' + (y * 0.5) + 'px))';
     }
 });
