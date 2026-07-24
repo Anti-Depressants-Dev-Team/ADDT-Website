@@ -78,7 +78,7 @@ a {
     text-decoration: none;
 }
 
-/* --- Particle Canvas --- */
+/* --- Particle Canvas (purple fog behind pills) --- */
 #particles {
     position: fixed;
     top: 0;
@@ -87,7 +87,7 @@ a {
     height: 100%;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 1;
 }
 
 /* --- Navigation --- */
@@ -477,7 +477,7 @@ section {
 
 /* --- About Section --- */
 #about {
-    background: var(--bg-secondary);
+    /* transparent — pills visible through it */
 }
 
 .about-grid {
@@ -712,7 +712,7 @@ section {
 
 /* --- Team Section --- */
 #team {
-    background: var(--bg-secondary);
+    /* transparent — pills visible through it */
 }
 
 .team-grid {
@@ -920,7 +920,9 @@ section {
 footer {
     position: relative;
     z-index: 1;
-    background: var(--bg-secondary);
+    background: rgba(5, 5, 8, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid var(--border-color);
     padding: 60px 24px 32px;
 }

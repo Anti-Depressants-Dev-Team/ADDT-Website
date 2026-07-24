@@ -11,122 +11,183 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ============================================
-   Particle Background
+   Pill Rain Background — 💊 falling everywhere
    ============================================ */
 function initParticles() {
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
+    const container = document.getElementById('particles');
+    const ctx = container.getContext('2d');
 
-    let particles = [];
+    // We'll use the canvas for a subtle purple fog behind the pills
+    let pills = [];
     let animFrame;
-    let mouseX = 0;
-    let mouseY = 0;
+    let mouseX = -1000;
+    let mouseY = -1000;
 
     function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        container.width = window.innerWidth;
+        container.height = window.innerHeight;
     }
 
-    class Particle {
-        constructor() {
-            this.reset(true);
+    // ── Pill class ──────────────────────────────────
+    class Pill {
+        constructor(spawnAbove = false) {
+            this.el = document.createElement('span');
+            this.el.textContent = '💊';
+            this.el.style.cssText = `
+                position: fixed;
+                pointer-events: none;
+                z-index: 0;
+                will-change: transform, opacity;
+                line-height: 1;
+                text-shadow: 0 0 12px rgba(168,85,247,0.6), 0 0 30px rgba(139,92,246,0.3);
+            `;
+            document.body.appendChild(this.el);
+            this.reset(spawnAbove);
         }
 
-        reset(initial = false) {
-            this.x = Math.random() * canvas.width;
-            this.y = initial ? Math.random() * canvas.height : canvas.height + 20;
-            this.size = Math.random() * 1.5 + 0.5;
-            this.speedY = -(Math.random() * 0.4 + 0.15);
-            this.speedX = (Math.random() - 0.5) * 0.3;
-            this.opacity = Math.random() * 0.5 + 0.1;
-            this.opacitySpeed = Math.random() * 0.003 + 0.001;
+        reset(spawnAbove) {
+            this.size = Math.random() * 1.2 + 0.7;          // rem (font-size only, not in transform)
+            this.x = Math.random() * window.innerWidth;
+            this.y = spawnAbove
+                ? -(Math.random() * window.innerHeight)
+                : Math.random() * window.innerHeight;
+            this.speedY = Math.random() * 1.4 + 0.5;        // px per frame @ 60fps
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.rotation = Math.random() * 360;
+            this.rotationSpeed = (Math.random() - 0.5) * 1.5; // degrees per frame
+            this.wobbleAmp = Math.random() * 30 + 10;
+            this.wobbleSpeed = Math.random() * 0.02 + 0.005;
+            this.wobbleOffset = Math.random() * Math.PI * 2;
+            this.opacity = Math.random() * 0.45 + 0.25;     // 0.25 – 0.7 — much more visible
+            this.opacityFlicker = Math.random() * 0.06;
             this.opacityPhase = Math.random() * Math.PI * 2;
-            this.purple = Math.random() > 0.5;
+            this.blur = Math.random() > 0.85 ? 'blur(0.5px)' : 'none';
+            this.frame = 0;
+            this.syncEl();
+        }
+
+        syncEl() {
+            // NOTE: no scale() — fontSize handles pill size
+            this.el.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotation}deg)`;
+            this.el.style.opacity = this.opacity;
+            this.el.style.fontSize = `${this.size}rem`;
+            this.el.style.filter = this.blur;
         }
 
         update() {
+            this.frame++;
             this.y += this.speedY;
-            this.x += this.speedX;
+            this.x += this.speedX + Math.sin(this.frame * this.wobbleSpeed + this.wobbleOffset) * 0.4;
+            this.rotation += this.rotationSpeed;
 
-            // Gentle mouse attraction
-            const dx = mouseX - this.x;
-            const dy = mouseY - this.y;
+            // Flicker opacity
+            this.opacityPhase += 0.03;
+            const flicker = Math.sin(this.opacityPhase) * this.opacityFlicker;
+
+            // Mouse repulsion — pills avoid the cursor
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 150) {
-                this.x += dx * 0.0003;
-                this.y += dy * 0.0003;
+            if (dist < 120 && dist > 0) {
+                const force = (120 - dist) / 120 * 2;
+                this.x += (dx / dist) * force;
+                this.y += (dy / dist) * force;
             }
 
-            // Pulse opacity
-            this.opacityPhase += this.opacitySpeed;
-            if (this.opacityPhase > Math.PI * 2) this.opacityPhase -= Math.PI * 2;
-
-            if (this.y < -10 || this.x < -10 || this.x > canvas.width + 10) {
-                this.reset();
+            // Wrap around when off screen
+            if (this.y > window.innerHeight + 60) {
+                this.y = -60;
+                this.x = Math.random() * window.innerWidth;
+                this.rotation = Math.random() * 360;
             }
+            if (this.x < -60) this.x = window.innerWidth + 40;
+            if (this.x > window.innerWidth + 60) this.x = -40;
+
+            // Apply flicker with clamping
+            this.opacity = Math.max(0.15, Math.min(0.75, this.opacity + flicker));
+
+            this.syncEl();
         }
 
-        draw() {
-            const pulse = Math.sin(this.opacityPhase) * 0.15;
-            const alpha = Math.max(0, Math.min(1, this.opacity + pulse));
-            const color = this.purple
-                ? `rgba(139, 92, 246, ${alpha})`
-                : `rgba(168, 85, 247, ${alpha * 0.7})`;
-
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = color;
-            ctx.fill();
-
-            // Occasional glow
-            if (this.purple && alpha > 0.35) {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(139, 92, 246, ${alpha * 0.1})`;
-                ctx.fill();
+        destroy() {
+            if (this.el && this.el.parentNode) {
+                this.el.parentNode.removeChild(this.el);
             }
         }
     }
 
-    function createParticles() {
-        const count = Math.floor((canvas.width * canvas.height) / 12000);
-        particles = [];
+    // ── Fog layer on canvas behind pills ───────────
+    let fogParticles = [];
+    class FogParticle {
+        constructor() {
+            this.reset();
+        }
+        reset() {
+            this.x = Math.random() * container.width;
+            this.y = Math.random() * container.height;
+            this.radius = Math.random() * 120 + 40;
+            this.alpha = Math.random() * 0.04 + 0.01;
+            this.speedX = (Math.random() - 0.5) * 0.2;
+            this.speedY = (Math.random() - 0.5) * 0.2;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x < -200) this.x = container.width + 200;
+            if (this.x > container.width + 200) this.x = -200;
+            if (this.y < -200) this.y = container.height + 200;
+            if (this.y > container.height + 200) this.y = -200;
+        }
+        draw() {
+            const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+            gradient.addColorStop(0, `rgba(139, 92, 246, ${this.alpha})`);
+            gradient.addColorStop(0.5, `rgba(139, 92, 246, ${this.alpha * 0.3})`);
+            gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function createFog() {
+        const count = Math.floor((container.width * container.height) / 40000);
+        fogParticles = [];
         for (let i = 0; i < count; i++) {
-            particles.push(new Particle());
+            fogParticles.push(new FogParticle());
+        }
+    }
+
+    // ── Spawn / manage pills ───────────────────────
+    function createPills() {
+        const count = Math.floor((window.innerWidth * window.innerHeight) / 5000);
+        // Remove old pills
+        pills.forEach(p => p.destroy());
+        pills = [];
+        for (let i = 0; i < count; i++) {
+            pills.push(new Pill(true)); // spawn scattered above viewport
         }
     }
 
     function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Subtle grid lines
-        ctx.strokeStyle = 'rgba(139, 92, 246, 0.02)';
-        ctx.lineWidth = 0.5;
-        const gridSize = 80;
-        for (let x = 0; x < canvas.width; x += gridSize) {
-            ctx.beginPath();
-            ctx.moveTo(x, 0);
-            ctx.lineTo(x, canvas.height);
-            ctx.stroke();
-        }
-        for (let y = 0; y < canvas.height; y += gridSize) {
-            ctx.beginPath();
-            ctx.moveTo(0, y);
-            ctx.lineTo(canvas.width, y);
-            ctx.stroke();
-        }
-
-        particles.forEach(p => {
-            p.update();
-            p.draw();
+        // Clear canvas & draw fog
+        ctx.clearRect(0, 0, container.width, container.height);
+        fogParticles.forEach(f => {
+            f.update();
+            f.draw();
         });
+
+        // Update pill positions
+        pills.forEach(p => p.update());
 
         animFrame = requestAnimationFrame(animate);
     }
 
+    // ── Events ─────────────────────────────────────
     window.addEventListener('resize', () => {
         resize();
-        createParticles();
+        createFog();
+        createPills();
     });
 
     window.addEventListener('mousemove', (e) => {
@@ -139,8 +200,10 @@ function initParticles() {
         mouseY = e.touches[0].clientY;
     }, { passive: true });
 
+    // ── Kick off ───────────────────────────────────
     resize();
-    createParticles();
+    createFog();
+    createPills();
     animate();
 }
 
