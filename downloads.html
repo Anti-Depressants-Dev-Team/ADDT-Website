@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ADDT Downloads — Get the drugs.">
+    <meta name="theme-color" content="#8B5CF6">
+    <title>Get the Drugs — ADDT Downloads</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Downloads page specific styles */
+        .downloads-hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 140px 24px 80px;
+            position: relative;
+        }
+
+        .downloads-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+
+        .downloads-hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .downloads-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: var(--transition);
+        }
+
+        .download-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 8px 40px rgba(139, 92, 246, 0.08);
+        }
+
+        .download-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .download-card-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .download-card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .download-card-header .ver {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+
+        .download-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .download-platforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .dl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .dl-win {
+            background: var(--purple-600);
+            color: white;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
+        }
+        .dl-win:hover {
+            background: var(--purple-500);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.45);
+            transform: translateY(-1px);
+        }
+
+        .dl-linux {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .dl-linux:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
+        }
+
+        .dl-android {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--purple-400);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        .dl-android:hover {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: rgba(168, 85, 247, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .dl-source {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.8rem;
+            padding: 10px 16px;
+        }
+        .dl-source:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+        }
+
+        .dl-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .featured-dl {
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-dl::before {
+            content: '🔥 FEATURED';
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 4px 10px;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 8px 0;
+            transition: var(--transition);
+            margin-bottom: 20px;
+        }
+        .back-link:hover {
+            color: var(--purple-400);
+        }
+
+        @media (max-width: 768px) {
+            .download-platforms { flex-direction: column; }
+            .dl-btn { justify-content: center; }
+            .downloads-hero { padding: 120px 16px 60px; }
+            .downloads-grid { padding: 0 16px 80px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pill Rain -->
+    <div id="pill-rain"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="scrolled">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-pill">💊</span>
+                <span class="logo-text">Anti Depressants</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about">About</a>
+                <a href="index.html#projects">Projects</a>
+                <a href="index.html#team">Team</a>
+                <a href="index.html#connect">Connect</a>
+            </div>
+            <a href="downloads.html" class="nav-cta" style="text-decoration:none;">
+                Get the Drugs
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="downloads-hero">
+        <div>
+            <h1><span class="gradient-text" data-text="Get the Drugs">Get the Drugs</span></h1>
+            <p>Direct downloads for every prescription in our pharmacy. Pick your poison.</p>
+        </div>
+    </section>
+
+    <!-- Downloads -->
+    <div class="downloads-grid">
+        <!-- SPICE -->
+        <div class="download-card featured-dl">
+            <div class="download-card-header">
+                <div class="download-card-icon">🎵</div>
+                <div>
+                    <h2>SPICE</h2>
+                    <span class="ver">v1.4.52</span>
+                </div>
+            </div>
+            <p>Unified music app — YouTube Music, SoundCloud & SPICE Music. Ad blocking, Discord RPC, scrobbling, synced lyrics. Desktop + Android.</p>
+            <div class="download-platforms">
+                <a href="https://github.com/Anti-Depressants-Dev-Team/SPICE/releases/latest" target="_blank" class="dl-btn dl-win">
+                    <svg class="dl-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 12V6.5a3.5 3.5 0 017 0V12m-3.5 7a3.5 3.5 0 003.5-3.5M3 15.5A3.5 3.5 0 016.5 12h0A3.5 3.5 0 0110 15.5v0A3.5 3.5 0 016.5 19h0A3.5 3.5 0 013 15.5zM16 2l4 4-4 4M20 6H9"/></svg>
+                    Windows
+                </a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team/SPICE/releases/latest" target="_blank" class="dl-btn dl-linux">
+                    <svg class="dl-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z"/></svg>
+                    Linux
+                </a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team/SPICE/releases/latest" target="_blank" class="dl-btn dl-android">
+                    🤖 Android APK
+                </a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team/SPICE" target="_blank" class="dl-btn dl-source">Source</a>
+            </div>
+        </div>
+
+        <!-- Ybochat -->
+        <div class="download-card">
+            <div class="download-card-header">
+                <div class="download-card-icon">💬</div>
+                <div>
+                    <h2>Ybochat</h2>
+                    <span class="ver">v1.4.5</span>
+                </div>
+            </div>
+            <p>All-in-one chat client — 12 messaging apps in one window. Discord, Steam, Telegram, WhatsApp, Slack & more.</p>
+            <div class="download-platforms">
+                <a href="https://github.com/Anti-Depressants-Dev-Team/Ybochat/releases/latest" target="_blank" class="dl-btn dl-win">Windows</a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team/Ybochat/releases/latest" target="_blank" class="dl-btn dl-linux">Linux (.deb/.rpm/.AppImage)</a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team/Ybochat" target="_blank" class="dl-btn dl-source">Source</a>
+            </div>
+        </div>
+
+        <!-- Faceit App Extended -->
+        <div class="download-card">
+            <div class="download-card-header">
+                <div class="download-card-icon">🎮</div>
+                <div>
+                    <h2>Faceit App Extended</h2>
+                    <span class="ver">v1.0.3</span>
+                </div>
+            </div>
+            <p>Extended Faceit desktop app with plugin support. Includes Mappio plugin for better map experiences.</p>
+            <div class="download-platforms">
+                <a href="https://github.com/Anti-Depressants-Dev-Team/Faceit-App-Extended/releases/latest" target="_blank" class="dl-btn dl-win">Windows</a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team/Faceit-App-Extended" target="_blank" class="dl-btn dl-source">Source</a>
+            </div>
+        </div>
+
+        <!-- AMBATU-LAUNCH -->
+        <div class="download-card">
+            <div class="download-card-header">
+                <div class="download-card-icon">🚀</div>
+                <div>
+                    <h2>AMBATU-LAUNCH</h2>
+                    <span class="ver">v1.0.5</span>
+                </div>
+            </div>
+            <p>Lightning-fast app launcher for Windows. Type and launch — no Start Menu digging required.</p>
+            <div class="download-platforms">
+                <a href="https://github.com/Anti-Depressants-Dev-Team/AMBATU-LAUNCH/releases/latest" target="_blank" class="dl-btn dl-win">Windows</a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team/AMBATU-LAUNCH" target="_blank" class="dl-btn dl-source">Source</a>
+            </div>
+        </div>
+
+        <!-- SnapSeek -->
+        <div class="download-card">
+            <div class="download-card-header">
+                <div class="download-card-icon">🔍</div>
+                <div>
+                    <h2>SnapSeek</h2>
+                    <span class="ver">v1.0.1</span>
+                </div>
+            </div>
+            <p>Browse & download images from Pinterest, Safebooru, and Pixiv. Built-in ad blocker, dark mode, auto PNG conversion.</p>
+            <div class="download-platforms">
+                <a href="https://github.com/Anti-Depressants-Dev-Team/snapseek/releases/latest" target="_blank" class="dl-btn dl-win">Windows</a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team/snapseek" target="_blank" class="dl-btn dl-source">Source</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-logo">💊 ADDT</span>
+                <p>Anti Depressants Dev Team</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="downloads.html">Downloads</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#projects">Projects</a>
+                <a href="index.html#team">Team</a>
+                <a href="index.html#connect">Connect</a>
+            </div>
+            <div class="footer-disclaimer">
+                <p><strong>⚠️ Disclaimer:</strong> This organization is not liable for any side effects, including sudden realization of how bloated other software is.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Anti Depressants Dev Team · Made with spite in Japan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Pill rain (same as index)
+        (function(){
+            var container = document.getElementById('pill-rain');
+            if (!container) { container = document.createElement('div'); container.id = 'pill-rain'; document.body.insertBefore(container, document.body.firstChild); }
+            var count = 500;
+            function spawn(n) {
+                var frag = document.createDocumentFragment();
+                for (var i = 0; i < n; i++) {
+                    var p = document.createElement('span');
+                    p.className = 'rain-pill';
+                    p.textContent = '💊';
+                    p.style.setProperty('--x', Math.random() * 100 + '%');
+                    p.style.setProperty('--dur', (Math.random() * 4 + 3) + 's');
+                    p.style.setProperty('--delay', (Math.random() * 6) + 's');
+                    p.style.setProperty('--size', (Math.random() * 1.4 + 0.8) + 'rem');
+                    p.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+                    p.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+                    p.style.setProperty('--rot-end', (Math.random() * 720 - 360) + 'deg');
+                    frag.appendChild(p);
+                }
+                container.appendChild(frag);
+            }
+            spawn(count);
+            var btn = document.getElementById('pill-multiplier');
+            if (btn) { btn.addEventListener('click', function(){ count *= 2; spawn(count); btn.textContent = '💊×' + count; }); }
+        })();
+
+        // Navbar scroll
+        (function(){
+            var nav = document.getElementById('navbar');
+            window.addEventListener('scroll', function(){ nav.classList[window.scrollY > 50 ? 'add' : 'remove']('scrolled'); }, {passive:true});
+        })();
+    </script>
+</body>
+</html>
