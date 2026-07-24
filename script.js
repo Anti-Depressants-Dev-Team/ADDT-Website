@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initPillRain() {
-    // Replace canvas with a div container
     var canvas = document.getElementById('particles');
     if (canvas) canvas.remove();
 
@@ -19,25 +18,37 @@ function initPillRain() {
     container.id = 'pill-rain';
     document.body.insertBefore(container, document.body.firstChild);
 
-    // Generate pill elements — each gets randomized CSS custom properties
-    var count = 200;
-    var frag = document.createDocumentFragment();
+    var count = 500;
 
-    for (var i = 0; i < count; i++) {
-        var pill = document.createElement('span');
-        pill.className = 'rain-pill';
-        pill.textContent = '💊';
-        pill.style.setProperty('--x', Math.random() * 100 + '%');
-        pill.style.setProperty('--dur', (Math.random() * 4 + 3) + 's');
-        pill.style.setProperty('--delay', (Math.random() * 6) + 's');
-        pill.style.setProperty('--size', (Math.random() * 1.4 + 0.8) + 'rem');
-        pill.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
-        pill.style.setProperty('--rot', (Math.random() * 360) + 'deg');
-        pill.style.setProperty('--rot-end', (Math.random() * 720 - 360) + 'deg');
-        frag.appendChild(pill);
+    function spawnPills(n) {
+        var frag = document.createDocumentFragment();
+        for (var i = 0; i < n; i++) {
+            var pill = document.createElement('span');
+            pill.className = 'rain-pill';
+            pill.textContent = '💊';
+            pill.style.setProperty('--x', Math.random() * 100 + '%');
+            pill.style.setProperty('--dur', (Math.random() * 4 + 3) + 's');
+            pill.style.setProperty('--delay', (Math.random() * 6) + 's');
+            pill.style.setProperty('--size', (Math.random() * 1.4 + 0.8) + 'rem');
+            pill.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+            pill.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+            pill.style.setProperty('--rot-end', (Math.random() * 720 - 360) + 'deg');
+            frag.appendChild(pill);
+        }
+        container.appendChild(frag);
     }
 
-    container.appendChild(frag);
+    spawnPills(count);
+
+    // 💊×2 button
+    var btn = document.getElementById('pill-multiplier');
+    if (btn) {
+        btn.addEventListener('click', function () {
+            count *= 2;
+            spawnPills(count);
+            btn.textContent = '💊×' + count;
+        });
+    }
 }
 
 function initNavbar() {
