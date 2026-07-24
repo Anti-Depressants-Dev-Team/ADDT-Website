@@ -37,12 +37,12 @@ function initPills() {
                 ? Math.random() * canvas.height - 60
                 : -60 - Math.random() * 300;
             this.size = Math.random() * 20 + 12;
-            this.speed = Math.random() * 30 + 15;
-            this.wobbleAmp = Math.random() * 2.5 + 1.0;
-            this.wobbleSpeed = Math.random() * 0.04 + 0.015;
+            this.speed = Math.random() * 150 + 75;
+            this.wobbleAmp = Math.random() * 6 + 2;
+            this.wobbleSpeed = Math.random() * 0.08 + 0.03;
             this.wobbleOffset = Math.random() * Math.PI * 2;
             this.rotation = Math.random() * 360;
-            this.rotSpeed = (Math.random() - 0.5) * 8;
+            this.rotSpeed = (Math.random() - 0.5) * 20;
             this.alpha = Math.random() * 0.4 + 0.3;
             this.flickerSpeed = Math.random() * 0.04 + 0.01;
             this.flickerPhase = Math.random() * Math.PI * 2;
@@ -101,7 +101,7 @@ function initPills() {
     }
 
     function createPills() {
-        const count = Math.floor((canvas.width * canvas.height) / 2500);
+        const count = Math.floor((canvas.width * canvas.height) / 800);
         pills = [];
         for (let i = 0; i < count; i++) {
             pills.push(new Pill());
