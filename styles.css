@@ -78,8 +78,8 @@ a {
     text-decoration: none;
 }
 
-/* --- Particle Canvas (purple fog behind pills) --- */
-#particles {
+/* --- Pill Rain Container (CSS-animated, GPU, zero lag) --- */
+#pill-rain {
     position: fixed;
     top: 0;
     left: 0;
@@ -87,7 +87,35 @@ a {
     height: 100%;
     z-index: 0;
     pointer-events: none;
-    opacity: 1;
+    overflow: hidden;
+}
+
+.rain-pill {
+    position: absolute;
+    top: -60px;
+    left: var(--x);
+    font-size: var(--size);
+    opacity: 0.45;
+    animation: pillFall var(--dur) var(--delay) linear infinite;
+    will-change: transform;
+    filter: drop-shadow(0 0 6px rgba(168,85,247,0.5));
+}
+
+@keyframes pillFall {
+    0% {
+        transform: translateY(0) translateX(0) rotate(var(--rot));
+        opacity: 0.15;
+    }
+    10% {
+        opacity: 0.5;
+    }
+    90% {
+        opacity: 0.45;
+    }
+    100% {
+        transform: translateY(calc(100vh + 120px)) translateX(var(--drift)) rotate(var(--rot-end));
+        opacity: 0.1;
+    }
 }
 
 /* --- Navigation --- */
