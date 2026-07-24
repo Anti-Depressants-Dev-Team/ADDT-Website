@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Anti Depressants Dev Team — We code so you don't have to cry.">
+    <meta name="theme-color" content="#8B5CF6">
+    <title>ADDT</title> — Anti Depressants Dev Team</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Particle Background -->
+    <canvas id="particles"></canvas>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-pill">💊</span>
+                <span class="logo-text">ADDT</span>
+            </a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#team">Team</a>
+                <a href="#connect">Connect</a>
+            </div>
+            <button class="nav-cta" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
+                Get the Drugs
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Est. 2025 · Tokyo, Japan
+            </div>
+            <h1 class="hero-title">
+                <span class="gradient-text">Anti Depressants</span>
+                <br>
+                <span class="hero-sub">Dev Team</span>
+            </h1>
+            <p class="hero-tagline">"We code so you don't have to cry."</p>
+            <p class="hero-desc">
+                A chaotic collective of developers building software that cures the chronic
+                headaches caused by modern technology. No bloat. No bullshit. Just tools that work.
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn-primary">
+                    💊 Browse the Pharmacy
+                </a>
+                <a href="https://github.com/Anti-Depressants-Dev-Team" target="_blank" class="btn-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-pill pill-1">💊</div>
+            <div class="floating-pill pill-2">💊</div>
+            <div class="floating-pill pill-3">💊</div>
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="scroll-indicator">
+            <span></span>Scroll to discover</span>
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <h2 class="section-title">
+                <span class="section-icon">🩺</span>
+                The Clinic
+            </h2>
+            <p class="section-subtitle">Who we are and what the hell we're doing</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="about-card-icon">🏴‍☠️</div>
+                <h3></h3>Our Mission</h3>
+                <p>Create</p> software that's <strong>fast</strong></strong>, <strong>stup</strong>idly simple</strong>, and actually <strong>respects your</strong> hardware</strong>. In an era where a calculator app requires an internet connection and a login — we provide the antidote.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-card-icon">⚡</div>
+                <h3>Our</h3> Philosophy</h3>
+                <p>Software</p> should open <em>instantly</em></em>. It shouldn't treat your 32GB of RAM like a suggestion. It shouldn't require a soul-binding ToS agreement just to take notes. We build for the users who remember when apps just... worked.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-card-icon">🌏</div>
+                <h3>Our Origin</h3></h3>
+                <p>Operating out of</p> <strong>Japan</strong</strong>> and the darkest corners of the internet. We're not a corporation. We don't have a board of directors. We're just a bunch of developers who got tired of modern software and decided to do something about it.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-header">
+            <h2 class="section-title">
+                <span class="section-icon">📦</span>
+                The Pharmacy
+            </h2>
+            <p class="section-subtitle">Our catalog of remedies for modern software ailments</p>
+        </div>
+
+        <div class="projects-grid">
+            <!-- SPICE - Featured -->
+            <div class="project-card featured">
+                <div class="project-card-glow"></div>
+                <div class="project-badge featured-badge">🔥 FEATURED</div>
+                <div class="project-header">
+                    <div class="project-icon">🎵</div>
+                    <div>
+                        <h3>SP</h3>ICE</h3>
+                        <span class="project-ver">v1.4.52</span>
+                    </div>
+                </div>
+                <p class="project-desc">
+                    The secret ingredient. A unified music application with an Electron desktop client for YouTube Music, SoundCloud, and SPICE Music. Includes ad blocking, Discord Rich Presence, Last.fm & ListenBrainz scrobbling, synchronized lyrics, and an Android app.
+                </p>
+                <div class="project-tech">
+                    <span></span>JavaScript</span><span>Electron</span</span>><span>Next.js</span></span><span>Android</span></span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/SPICE/releases/latest" target="_blank" class="btn-download">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/SPICE" target="_blank" class="btn-source">Source</a>
+                </div>
+            </div>
+
+            <!-- Ybochat -->
+            <div class="project-card">
+                <div class="project-card-glow"></div>
+                <div class="project-header">
+                    <div class="project-icon">💬</div>
+                    <div>
+                        <h3>Ybo</h3>chat</h3>
+                        <span class="project-ver">v1.4.5</span>
+                    </div>
+                </div>
+                <p class="project-desc">
+                    All-in-one chat client that loads 12 messaging apps in a clean, unified window. Discord, Steam Chat, Matrix, Telegram, WhatsApp, Slack and more — all as toggleable tabs. With streamer mode, Chrome user agent, and auto-updater.
+                </p>
+                <div class="project-tech">
+                    <span>JavaScript</span><span</span>>Electron</span><span>12</span> Services</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/Ybochat/releases/latest" target="_blank" class="btn-download">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/Ybochat" target="_blank" class="btn-source">Source</a>
+                </div>
+            </div>
+
+            <!-- Faceit-App-Extended -->
+            <div class="project-card">
+                <div class="project-card-glow"></div>
+                <div class="project-header">
+                    <div class="project-icon">🎮</div>
+                    <div>
+                        <h3></h3>Faceit App Extended</h3>
+                        <span class="project-ver">v1.0.3</span>
+                    </div>
+                </div>
+                <p class="project-desc">
+                    An extended desktop application for Faceit with plugin support. Adds extra features on top of the Faceit platform including the Mappio plugin for better map experiences. Built with WPF and .NET.
+                </p>
+                <div class="project-tech">
+                    <span>C#</span><span>WPF</span</span>><span>.NET</span><span>Plugins</span</span>>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/Faceit-App-Extended/releases/latest" target="_blank" class="btn-download">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/Faceit-App-Extended" target="_blank" class="btn-source">Source</a>
+                </div>
+            </div>
+
+            <!-- AMBATU-LAUNCH -->
+            <div class="project-card">
+                <div class="project-card-glow"></div>
+                <div class="project-header">
+                    <div class="project-icon">🚀</div>
+                    <div>
+                        <h3>AMBATU-L</h3>AUNCH</h3>
+                        <span class="project-ver">v1.0.5</span>
+                    </div>
+                </div>
+                <p class="project-desc">
+                    A fast, no-nonsense app launcher. Stop digging through Start Menu folders — just type and launch. Clean interface, instant results. Built with C# for maximum performance on Windows.
+                </p>
+                <div class="project-tech">
+                    <span>C#</span><span>W</span>PF</span><span></span>Windows</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/AMBATU-LAUNCH/releases/latest" target="_blank" class="btn-download">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/AMBATU-LAUNCH" target="_blank" class="btn-source">Source</a>
+                </div>
+            </div>
+
+            <!-- SnapSeek -->
+            <div class="project-card">
+                <div class="project-card-glow"></div>
+                <div class="project-header">
+                    <div class="project-icon">🔍</div>
+                    <div>
+                        <h3>Snap</h3>Seek</h3>
+                        <span class="project-ver">v1.0.1</span>
+                    </div>
+                </div>
+                <p class="project-desc">
+                    Modern desktop app for browsing and downloading images from Pinterest, Safebooru, and Pixiv. Built-in ad blocking, automatic dark mode, smart download overlays, and automatic PNG conversion. Beautiful purple and black theme.
+                </p>
+                <div class="project-tech">
+                    <span>JavaScript</span><span</span>>Electron</span><span>Sharp</span>
+</span>                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/snapseek/releases/latest" target="_blank" class="btn-download">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <a href="https://github.com/Anti-Depressants-Dev-Team/snapseek" target="_blank" class="btn-source">Source</a>
+                </div>
+            </div>
+
+            <!-- More Projects -->
+            <div class="project-card more-projects">
+                <div class="project-card-glow"></div>
+                <div class="project-header">
+                    <div class="project-icon">🧪</div>
+                    <div>
+                        <h3>More Experiments</h3>
+                   </h3> </div>
+                </div>
+                <p class="project-desc">
+                    We've got more in the lab. Check out the full catalog including BumChat, Catalyst Game Launcher, Custom Replay Buffer for OBS, Ybogram, and more experimental treatments.
+                </p>
+                <div class="project-tech">
+                    <span>C++</span><span></span>Kotlin</span><span></span>TypeScript</span><span>CMake</span>
+</span>                </div>
+                <div class="project-links">
+                    <a href="https://github.com/orgs/Anti-Depressants-Dev-Team/repositories" target="_blank" class="btn-primary" style="width:100%;text-align:center;justify-content:center;">
+                        View All Repositories →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <div class="section-header">
+            <h2 class="section-title">
+                <span class="section-icon">👨‍⚕️</span>
+                The Medical Staff
+            </h2>
+            <p class="section-subtitle">The unhinged geniuses behind the prescriptions</p>
+        </div>
+        <div class="team-grid">
+            <!-- Luty -->
+            <div class="team-card">
+                <div class="team-avatar">
+                    <div class="avatar-placeholder">👑</div>
+                    <div class="avatar-ring"></div>
+                </div>
+                <div class="team-info">
+                    <h3>Luty</h3</h3>>
+                    <span class="team-role">The Leader / Head Pharmacist</span>
+                    <span class="team-handle">@Yabosen</span>
+                    <p>The glue holding this operation together. Directs the chaos, decides which "treatments" get released to the public, and ensures the team doesn't accidentally delete the production database.</p>
+                </div>
+            </div>
+
+            <!-- Bendy -->
+            <div class="team-card">
+                <div class="team-avatar">
+                    <div class="avatar-placeholder">🛠️</div>
+                    <div class="avatar-ring"></div>
+                </div>
+                <div class="team-info">
+                    <h3>Bendy</h3></h3>
+                    <span class="team-role">The Purist / Non-AI Programmer</span>
+                    <span class="team-handle">@Megamer-studios</span>
+                    <p>The designated "Old School" surgeon. Refuses to let a robot write his code. Writes every line by hand, fueled by spite and energy drinks. <em>"If I didn't suffer writing it, you won't enjoy using it."</em></p>
+                </div>
+            </div>
+
+            <!-- Fanta -->
+            <div class="team-card">
+                <div class="team-avatar">
+                    <div class="avatar-placeholder">🤖</div>
+                    <div class="avatar-ring"></div>
+                </div>
+                <div class="team-info">
+                    <h3>F</h3>anta</h3>
+                    <span class="team-role">The Master of AI / The Hivemind</span>
+                    <span class="team-handle">@OttoApocalypse69</span>
+                    <p>A cyborg in human clothing. Doesn't just use ChatGPT — runs multiple LLMs simultaneously to hallucinate code into reality. <em>"Why write code when I can prompt-engineer a god to do it for me?"</em></p>
+                </div>
+            </div>
+
+            <!-- Ryan -->
+            <div class="team-card">
+                <div class="team-avatar">
+                    <div class="avatar-placeholder">💗</div>
+                    <div class="avatar-ring"></div>
+                </div>
+                <div class="team-info">
+                    <h3>Ryan</h3>
+</h3>                    <span class="team-role">Emotional Support</span>
+                    <span class="team-handle">@CallMeRyan</span>
+                    <p>The best programmer ever. The mastermind behind everything. Nemesis of Terry Davis. <em>"I exist, thus I exist."</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Patients Section -->
+    <section id="patients">
+        <div class="section-header">
+            <h2 class="section-title">
+                <span class="section-icon">👥</span>
+                Our Patients
+            </h2>
+            <p class="section-subtitle">You might need our software if...</p>
+        </div>
+        <div class="patients-grid">
+            <div class="patient-item">
+                <span class="patient-icon">😤</span>
+                <p>You are tired of "</p>Smart" features that are actually dumb.</p>
+            </div>
+            <div class="patient-item">
+                <span class="patient-icon">💨</span>
+                <p>You miss the days</p> when software opened instantly.</p>
+            </div>
+            <div class="patient-item">
+                <span class="patient-icon">📝</span>
+                <p></p>You use Notepad because you just want to write text, not have a conversation with a chatbot.</p>
+            </div>
+            <div class="patient-item">
+                <span class="patient-icon">🧠</span>
+                <p>You have a low</p> tolerance for unnecessary RAM usage.</p>
+            </div>
+            <div class="patient-item">
+                <span class="patient-icon">🔒</span>
+                <p>You believe</p> your OS should not require an online account.</p>
+            </div>
+            <div class="patient-item">
+                <span class="patient-icon">☠️</span>
+                <p>You're</p> just done with modern tech's enshittification.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section id="connect">
+        <div class="section-header">
+            <h2 class="section-title">
+                <span class="section-icon">🔗</span>
+                Connect & Contribute
+            </h2>
+            <p class="section-subtitle">Do you hate modern software? Come hang out.</p>
+        </div>
+        <div class="connect-grid">
+            <a href="https://t.me/antidepressantsdevteam" target="_blank" class="connect-card">
+                <div class="connect-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.441-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.015 3.333-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.119.098.152.228.167.331.015.103.033.337.018.53z"/></svg>
+                </div>
+                <h3>Telegram</h3></h3>
+                <p>Join</p> the clinic waiting room</p>
+                <span class="connect-link">t.me/antidepressantsdevteam</span>
+            </a>
+            <a href="https://github.com/Anti-Depressants-Dev-Team" target="_blank" class="connect-card">
+                <div class="connect-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </div>
+                <h3>Git</h3>Hub</h3>
+                <p>Browse</p> the source, open issues, submit PRs</p>
+                <span class="connect-link">Anti-Depressants-Dev-Team</span>
+            </a>
+            <a href="https://spice-yabosens-projects.vercel.app" target="_blank" class="connect-card">
+                <div class="connect-icon">🌐</div>
+                <h3>SPICE Web</h3></h3>
+                <p>Try SP</p>ICE Music in your browser</p>
+                <span class="connect-link">spice-yabosens-projects.vercel.app</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-logo">💊 ADDT</span>
+                <p></p>Anti Depressants Dev Team</p>
+            </div>
+            <div class="footer-links">
+                <a href="#hero">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#team">Team</a>
+                <a href="#connect">Connect</a>
+            </div>
+            <div class="footer-disclaimer">
+                <p><strong>⚠</strong>️ Disclaimer:</strong> This organization is not liable for any side effects, including sudden realization of how bloated other software is.</p>
+            </div>
+            <div class="footer-bottom">
+                <p></p>© 2026 Anti Depressants Dev Team · Made with spite in Japan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
